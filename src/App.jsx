@@ -138,7 +138,7 @@ function App() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
 
-      <div className="min-h-screen kraft-texture">
+      <div className="min-h-screen kraft-texture overflow-x-hidden">
         <motion.nav 
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -169,17 +169,17 @@ function App() {
               </div>
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className="flex items-center space-x-3"
+                className="flex items-center space-x-3 rtl:space-x-reverse"
               >
                 <img 
                   src="/logo-text.png" 
                   alt="ITQAN Text Logo" 
-                  className="h-12 object-contain"
+                  className="h-10 sm:h-12 object-contain max-w-full"
                 />
                 <img 
                   src="/logo-icon.png" 
                   alt="ITQAN Logo Icon" 
-                  className="h-12 w-12 object-contain"
+                  className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
                 />
                 
               </motion.div>
@@ -199,10 +199,10 @@ function App() {
                 <div className="relative z-10">
                   <img  
                     alt="Premium packaging solutions showcase"
-                    className="w-full h-96 object-cover rounded-2xl cardboard-shadow"
+                    className="w-full h-64 sm:h-80 md:h-96 object-cover rounded-2xl cardboard-shadow"
                    src="https://images.unsplash.com/photo-1648476029943-301781dd76d4" />
                 </div>
-                <div className="absolute -top-4 -left-4 w-full h-full bg-[var(--muted-teal)] rounded-2xl -z-10"></div>
+                <div className="absolute -top-4 left-0 sm:-left-4 w-full h-full bg-[var(--muted-teal)] rounded-2xl -z-10"></div>
               </motion.div>
               <motion.div
                 initial={language === 'ar' ? { x: -100, opacity: 0 } : { x: 100, opacity: 0 }}
@@ -210,10 +210,10 @@ function App() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="order-2 lg:order-1"
               >
-                <h1 className="text-5xl lg:text-6xl font-bold text-gradient mb-6">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gradient mb-6">
                   {currentContent.hero.title}
                 </h1>
-                <h2 className="text-2xl lg:text-3xl text-[var(--dark-teal)] mb-6 font-light">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl text-[var(--dark-teal)] mb-6 font-light">
                   {currentContent.hero.subtitle}
                 </h2>
                 <p className="text-lg text-[var(--dark-teal)]/80 mb-8 leading-relaxed">
