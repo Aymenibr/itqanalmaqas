@@ -1,12 +1,12 @@
 {
+	"homepage": "https://github.com/Aymenibr/itqanalmaqas.git",
 	"name": "web-app",
 	"type": "module",
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "vite",
-		"build": "node tools/generate-llms.js || true && vite build",
-		"preview": "vite preview"
+		"predeploy": "npm run build",
+  		"deploy": "gh-pages -d build"
 	},
 	"dependencies": {
 		"@radix-ui/react-alert-dialog": "^1.0.5",
