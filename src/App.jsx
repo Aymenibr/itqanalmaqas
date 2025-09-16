@@ -117,14 +117,30 @@ function App() {
   const handleWhatsApp = () => {
     window.open('https://wa.me/966594392374', '_blank');
   };
+  
+  const handleWhatsAppWithMessage = (categoryKey) => {
+    const productTitle = currentContent.portfolio[categoryKey]?.title || '';
+    const message = language === 'ar'
+      ? `مرحبًا، مهتم بمنتج: ${productTitle}. أرسلوا لي التفاصيل والاسعار مشكورين.`
+      : `Hello, I'm interested in: ${productTitle}. Please share details and pricing.`;
+    const url = `https://wa.me/966594392374?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
+  
+  const mapsUrl = 'https://maps.app.goo.gl/XwrVjqTz4ioVfn16A?g_st=aw';
+  const handleOpenMaps = () => {
+    window.open(mapsUrl, '_blank');
+  };
+  
+  const phoneNumberE164 = '+966594392374';
 
   const portfolioItems = [
     { category: 'shipping', icon: Truck },
     { category: 'food', icon: Coffee },
     { category: 'retail', icon: ShoppingBag },
     { category: 'custom', icon: Box },
-    { category: 'sustainable', icon: Leaf },
-    { category: 'luxury', icon: Gem }
+    { category: 'luxury', icon: Gem },
+    { category: 'sustainable', icon: Gem }
   ];
 
   return (
@@ -153,10 +169,10 @@ function App() {
                 size="sm"
                 className="border-[var(--primary-teal)] text-[var(--primary-teal)] hover:bg-[var(--primary-teal)] hover:text-white"
               >
-                <Globe className="h-4 w-4 me-2" />
+                <Globe className="h-4 w-4 mr-2 rtl:mr-0 rtl:ml-2" />
                 {language === 'en' ? 'العربية' : 'English'}
               </Button>
-              <div className="hidden md:flex items-center space-x-8">
+              <div className="hidden md:flex items-center space-x-8 rtl:space-x-reverse">
                 {Object.entries(currentContent.nav).slice().reverse().map(([key, value]) => (
                   <a 
                     key={key}
@@ -169,7 +185,7 @@ function App() {
               </div>
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className="flex items-center space-x-3 rtl:space-x-reverse"
+                className="flex items-center gap-x-3"
               >
                 <img 
                   src="/logo-text.png" 
@@ -187,7 +203,7 @@ function App() {
           </div>
         </motion.nav>
 
-        <section id="home" className="pt-16 min-h-screen flex items-center hero-pattern">
+        <section id="home" className="pt-5 min-h-screen flex items-center ">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
@@ -219,6 +235,9 @@ function App() {
                 <p className="text-lg text-[var(--dark-teal)]/80 mb-8 leading-relaxed">
                   {currentContent.hero.description}
                 </p>
+                <p className="text-md text-[var(--dark-teal)]/90 mb-6 font-bold">
+                  {language === 'ar' ? '🚚 والأجمل... التوصيل مجاني داخل الرياض!' : 'Want better? Delivery is free inside Riyadh!'}
+                </p>
                 <Button 
                   onClick={() => document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' })}
                   className="packaging-gradient text-white px-8 py-3 text-lg font-semibold hover:shadow-lg transition-all duration-300"
@@ -229,6 +248,64 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* Offers / Discounts Section */}
+<section
+  id="offers"
+  className="py-12 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-y border-[var(--primary-teal)]/20"
+>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.div
+      initial={{ y: 40, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="rounded-2xl cardboard-shadow bg-white/80 backdrop-blur p-6 sm:p-8 "
+    >
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
+        {/* Banner Image */}
+        <div className="shrink-0 w-full sm:w-56">
+          <img
+            src="/images/offers-banner.jpg"
+            alt={language === 'ar' ? 'خصم 9.5% - اليوم الوطني السعودي' : '9.5% discount offer - Saudi National Day'}
+            className="w-full h-full sm:h-full object-cover rounded-xl cardboard-shadow"
+          />
+        </div>
+
+        {/* Banner Text */}
+        <div className="flex-1 w-full text-center sm:text-start">
+          <h3 className="text-2xl font-bold text-[var(--dark-teal)] mb-2">
+            {language === 'ar' ? 'عرض اليوم الوطني' : 'Saudi National Day Offer'}
+          </h3>
+          <p className="text-[var(--dark-teal)]/80 text-lg font-medium mb-1">
+            {language === 'ar'
+              ? 'خصم 9.5% على جميع الكراتين بمناسبة اليوم الوطني'
+              : 'Celebrate with 9.5% off on all cartons'}
+          </p>
+          <p className="text-emerald-700 font-bold">
+            {language === 'ar' ? '💚 عزنا بطبعنا 💚' : 'Our pride is in our roots'}
+          </p>
+        </div>
+
+        {/* WhatsApp Button */}
+        <Button
+          onClick={() =>
+            window.open(
+              `https://wa.me/966594392374?text=${encodeURIComponent(
+                'أريد الاستفادة من خصم 9.5% الآن بمناسبة اليوم الوطني'
+              )}`,
+              '_blank'
+            )
+          }
+          className="packaging-gradient text-white w-full sm:w-auto mt-3 sm:mt-0 px-6 py-3 text-sm sm:text-base font-semibold hover:shadow-lg transition-all duration-300 shrink-0"
+        >
+          {language === 'ar' ? 'احجز خصم 9.5%' : 'Claim 9.5% off'}
+        </Button>
+      </div>
+    </motion.div>
+  </div>
+</section>
+
 
         <section id="portfolio" className="py-20 bg-white/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -268,13 +345,22 @@ function App() {
                         <IconComponent className="h-6 w-6" />
                       </div>
                     </div>
-                    <div className="p-6">
+                    <div className="p-6 space-y-4">
                       <h3 className="text-xl font-bold text-[var(--dark-teal)] mb-3">
                         {currentContent.portfolio[item.category].title}
                       </h3>
-                      <p className="text-[var(--dark-teal)]/80">
-                        {currentContent.portfolio[item.category].description}
-                      </p>
+                      <div className="flex items-center justify-between rtl:flex-row-reverse gap-3">
+                        <Button
+                          onClick={() => handleWhatsAppWithMessage(item.category)}
+                          className="packaging-gradient text-white px-3 py-2 text-sm font-semibold hover:shadow-md transition-all duration-300 shrink-0"
+                        >
+                          <MessageCircle className="h-4 w-4 sm:me-2" />
+                          <span className="hidden sm:inline">{language === 'ar' ? 'واتساب' : 'WhatsApp'}</span>
+                        </Button>
+                        <p className="text-[var(--dark-teal)]/80 flex-1 text-sm sm:text-base">
+                          {currentContent.portfolio[item.category].description}
+                        </p>
+                      </div>
                     </div>
                   </motion.div>
                 );
@@ -330,18 +416,46 @@ function App() {
               </h2>
               
               <div className="grid md:grid-cols-3 gap-8">
-                <div className="flex items-center justify-center space-x-4">
-                  <span className="text-lg text-[var(--dark-teal)]">{currentContent.contact.phone}</span>
+                <a
+                  href={`tel:${phoneNumberE164}`}
+                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
+                  aria-label={language === 'ar' ? 'اتصل الآن' : 'Call now'}
+                >
+                  <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
+                    {currentContent.contact.phone}
+                  </span>
                   <Phone className="h-6 w-6 text-[var(--primary-teal)]" />
-                </div>
-                <div className="flex items-center justify-center space-x-4">
-                  <span className="text-lg text-[var(--dark-teal)]">{currentContent.contact.email}</span>
+                </a>
+                <a
+                  href={`mailto:${currentContent.contact.email}`}
+                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
+                  aria-label={language === 'ar' ? 'إرسال بريد إلكتروني' : 'Send email'}
+                >
+                  <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
+                    {currentContent.contact.email}
+                  </span>
                   <Mail className="h-6 w-6 text-[var(--primary-teal)]" />
-                </div>
-                <div className="flex items-center justify-center space-x-4">
-                  <span className="text-lg text-[var(--dark-teal)]">{currentContent.contact.address}</span>
+                </a>
+                <a
+                  href={mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
+                  aria-label={language === 'ar' ? 'افتح العنوان على خرائط قوقل' : 'Open address in Google Maps'}
+                >
+                  <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
+                    {currentContent.contact.address}
+                  </span>
                   <MapPin className="h-6 w-6 text-[var(--primary-teal)]" />
-                </div>
+                </a>
+              </div>
+              <div className="mt-8 flex justify-center">
+                <Button 
+                  onClick={handleOpenMaps}
+                  className="packaging-gradient text-white px-8 py-3 text-lg font-semibold hover:shadow-lg transition-all duration-300"
+                >
+                  {language === 'ar' ? 'زورونا على خرائط قوقل' : 'Open in Google Maps'}
+                </Button>
               </div>
             </motion.div>
           </div>
