@@ -48,6 +48,7 @@ function App() {
       contact: {
         title: "Get In Touch",
         phone: "+966-59-439-2374",
+        phone2: "+966-54-831-6100",
         email: "Info@itqanalmaqas.com.sa", 
         address: "Saudi Arabia, Riyadh"
       },
@@ -84,9 +85,9 @@ function App() {
         shipping: { title: "📦 كراتين الشحن", description: "قوية وتتحمل." },
         food: { title: "🍱 كراتين الأكل", description: "تغليف آمن للأغذية يحافظ على النظافة والجودة" },
         retail: { title: "🛍️ كراتين المتاجر", description: "أشكال جذابة تبرز علامتك التجارية." },
-        custom: { title: "🌎كراتين معروفة", description: "كراتين معروفة بالجودة والتصاميم الجذابة." },
-        sustainable: { title: "✨ كراتين فاخرة", description: "تجربة فتح مميزة تعكس قيمة منتجك." },
-        luxury: { title: "🎨تصميم خاص؟", description: "عطنا خبر… ونحولها لك لواقع!" }
+        sustainable: { title: "🌎كراتين معروفة", description: "كراتين معروفة بالجودة والتصاميم الجذابة." },
+        luxury: { title: "✨ كراتين فاخرة", description: "تجربة فتح مميزة تعكس قيمة منتجك." },
+        custom: { title: "🎨تصميم خاص؟", description: "عطنا خبر… ونحولها لك لواقع!" }
       },
       about: {
         title: "عن إتقان المقاس",
@@ -95,6 +96,7 @@ function App() {
       contact: {
         title: "تواصل معنا",
         phone: "966-59-439-2374+",
+        phone2: "966-54-831-6100+",
         email: "Info@itqanalmaqas.com.sa", 
         address: "المملكة العربية السعودية, الرياض"
       },
@@ -136,11 +138,11 @@ function App() {
 
   const portfolioItems = [
     { category: 'shipping', icon: Truck },
+    { category: 'luxury', icon: Gem },
     { category: 'food', icon: Coffee },
     { category: 'retail', icon: ShoppingBag },
+    { category: 'sustainable', icon: Gem },
     { category: 'custom', icon: Box },
-    { category: 'luxury', icon: Gem },
-    { category: 'sustainable', icon: Gem }
   ];
 
   return (
@@ -216,7 +218,7 @@ function App() {
                   <img  
                     alt="Premium packaging solutions showcase"
                     className="w-full h-64 sm:h-80 md:h-96 object-cover rounded-2xl cardboard-shadow"
-                   src="https://images.unsplash.com/photo-1648476029943-301781dd76d4" />
+                    src="/images/hero-packaging.jpg" />
                 </div>
                 <div className="absolute -top-4 left-0 sm:-left-4 w-full h-full bg-[var(--muted-teal)] rounded-2xl -z-10"></div>
               </motion.div>
@@ -340,7 +342,7 @@ function App() {
                       <img  
                         alt={currentContent.portfolio[item.category].title}
                         className="w-full h-full object-cover"
-                       src="https://images.unsplash.com/photo-1595872018818-97555653a011" />
+                       src={`/images/portfolio-${item.category}.jpg`} />
                       <div className="absolute top-4 left-4 bg-[var(--primary-teal)] text-white p-3 rounded-full">
                         <IconComponent className="h-6 w-6" />
                       </div>
@@ -382,7 +384,7 @@ function App() {
                 <img  
                   alt="ITQANALMAQAS packaging facility"
                   className="w-full h-96 object-cover rounded-2xl cardboard-shadow"
-                 src="https://images.unsplash.com/photo-1586014972290-6502df0deb85" />
+                 src="/images/about-facility.jpg" />
               </motion.div>
               <motion.div
                 initial={language === 'ar' ? { x: -100, opacity: 0 } : { x: 100, opacity: 0 }}
@@ -415,14 +417,24 @@ function App() {
                 {currentContent.contact.title}
               </h2>
               
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-4 gap-6">
                 <a
-                  href={`tel:${phoneNumberE164}`}
+                  href={`tel:+966594392374`}
                   className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
                   aria-label={language === 'ar' ? 'اتصل الآن' : 'Call now'}
                 >
                   <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
                     {currentContent.contact.phone}
+                  </span>
+                  <Phone className="h-6 w-6 text-[var(--primary-teal)]" />
+                </a>
+                <a
+                  href={`tel:+966548316100`}
+                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
+                  aria-label={language === 'ar' ? 'اتصل الآن' : 'Call now'}
+                >
+                  <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
+                    {currentContent.contact.phone2}
                   </span>
                   <Phone className="h-6 w-6 text-[var(--primary-teal)]" />
                 </a>
