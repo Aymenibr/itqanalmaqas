@@ -24,7 +24,34 @@
 
 			gtag('config', 'AW-11561822303');
 		</script>
-		<script type="module" crossorigin src="/assets/index-3d6077bf.js"></script>
+		
+		<!-- Event snippet for Contact conversion page -->
+		<script>
+			function gtag_report_conversion(url) {
+				console.log('gtag_report_conversion called with URL:', url);
+				
+				// Always open the URL first, then try to track conversion
+				console.log('Opening URL immediately:', url);
+				window.open(url, '_blank');
+				
+				// Try to track conversion (but don't depend on it)
+				if (typeof gtag === 'function') {
+					console.log('gtag function available, tracking conversion');
+					try {
+						gtag('event', 'conversion', {
+							'send_to': 'AW-11561822303/Sr9DCPr8tJkbEN_QjYkr'
+						});
+						console.log('Conversion tracked successfully');
+					} catch (error) {
+						console.log('Error tracking conversion:', error);
+					}
+				} else {
+					console.log('gtag function not available');
+				}
+				return false;
+			}
+		</script>
+		<script type="module" crossorigin src="/assets/index-14b955a8.js"></script>
 		<link rel="stylesheet" href="/assets/index-2e6ed68d.css">
 	</head>
 	<body>
