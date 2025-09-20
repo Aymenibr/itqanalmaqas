@@ -262,7 +262,17 @@ function App() {
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
-      className="rounded-2xl cardboard-shadow bg-white/80 backdrop-blur p-6 sm:p-8 "
+      onClick={() =>
+        window.open(
+          `https://wa.me/966594392374?text=${encodeURIComponent(
+            language === 'ar' 
+              ? 'أريد الاستفادة من خصم 9.5% الآن بمناسبة اليوم الوطني'
+              : 'I want to claim the 9.5% discount for Saudi National Day'
+          )}`,
+          '_blank'
+        )
+      }
+      className="rounded-2xl cardboard-shadow bg-white/80 backdrop-blur p-6 sm:p-8 cursor-pointer hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group"
     >
       <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
         {/* Banner Image */}
@@ -270,35 +280,38 @@ function App() {
           <img
             src="/images/offers-banner.jpg"
             alt={language === 'ar' ? 'خصم 9.5% - اليوم الوطني السعودي' : '9.5% discount offer - Saudi National Day'}
-            className="w-full h-full sm:h-full object-cover rounded-xl cardboard-shadow"
+            className="w-full h-full sm:h-full object-cover rounded-xl cardboard-shadow group-hover:shadow-lg transition-shadow duration-300"
           />
         </div>
 
         {/* Banner Text */}
         <div className="flex-1 w-full text-center sm:text-start">
-          <h3 className="text-2xl font-bold text-[var(--dark-teal)] mb-2">
+          <h3 className="text-2xl font-bold text-[var(--dark-teal)] mb-2 group-hover:text-[var(--primary-teal)] transition-colors duration-300">
             {language === 'ar' ? 'عرض اليوم الوطني' : 'Saudi National Day Offer'}
           </h3>
-          <p className="text-[var(--dark-teal)]/80 text-lg font-medium mb-1">
+          <p className="text-[var(--dark-teal)]/80 text-lg font-medium mb-1 group-hover:text-[var(--dark-teal)] transition-colors duration-300">
             {language === 'ar'
               ? 'خصم 9.5% على جميع الكراتين بمناسبة اليوم الوطني'
               : 'Celebrate with 9.5% off on all cartons'}
           </p>
-          <p className="text-emerald-700 font-bold">
+          <p className="text-emerald-700 font-bold group-hover:text-emerald-600 transition-colors duration-300">
             {language === 'ar' ? '💚 عزنا بطبعنا 💚' : 'Our pride is in our roots'}
           </p>
         </div>
 
         {/* WhatsApp Button */}
         <Button
-          onClick={() =>
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent card click when button is clicked
             window.open(
               `https://wa.me/966594392374?text=${encodeURIComponent(
-                'أريد الاستفادة من خصم 9.5% الآن بمناسبة اليوم الوطني'
+                language === 'ar' 
+                  ? 'أريد الاستفادة من خصم 9.5% الآن بمناسبة اليوم الوطني'
+                  : 'I want to claim the 9.5% discount for Saudi National Day'
               )}`,
               '_blank'
-            )
-          }
+            );
+          }}
           className="packaging-gradient text-white w-full sm:w-auto mt-3 sm:mt-0 px-6 py-3 text-sm sm:text-base font-semibold hover:shadow-lg transition-all duration-300 shrink-0"
         >
           {language === 'ar' ? 'احجز خصم 9.5%' : 'Claim 9.5% off'}
@@ -336,30 +349,34 @@ function App() {
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6, delay: index * 0.2 }}
                     viewport={{ once: true }}
-                    className="portfolio-card rounded-2xl overflow-hidden"
+                    onClick={() => handleWhatsAppWithMessage(item.category)}
+                    className="portfolio-card rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group"
                   >
                     <div className="relative h-64">
                       <img  
                         alt={currentContent.portfolio[item.category].title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                        src={`/images/portfolio-${item.category}.jpg`} />
-                      <div className="absolute top-4 left-4 bg-[var(--primary-teal)] text-white p-3 rounded-full">
+                      <div className="absolute top-4 left-4 bg-[var(--primary-teal)] text-white p-3 rounded-full group-hover:bg-[var(--dark-teal)] transition-colors duration-300">
                         <IconComponent className="h-6 w-6" />
                       </div>
                     </div>
                     <div className="p-6 space-y-4">
-                      <h3 className="text-xl font-bold text-[var(--dark-teal)] mb-3">
+                      <h3 className="text-xl font-bold text-[var(--dark-teal)] mb-3 group-hover:text-[var(--primary-teal)] transition-colors duration-300">
                         {currentContent.portfolio[item.category].title}
                       </h3>
                       <div className="flex items-center justify-between rtl:flex-row-reverse gap-3">
                         <Button
-                          onClick={() => handleWhatsAppWithMessage(item.category)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent card click when button is clicked
+                            handleWhatsAppWithMessage(item.category);
+                          }}
                           className="packaging-gradient text-white px-3 py-2 text-sm font-semibold hover:shadow-md transition-all duration-300 shrink-0"
                         >
                           <MessageCircle className="h-4 w-4 sm:me-2" />
                           <span className="hidden sm:inline">{language === 'ar' ? 'واتساب' : 'WhatsApp'}</span>
                         </Button>
-                        <p className="text-[var(--dark-teal)]/80 flex-1 text-sm sm:text-base">
+                        <p className="text-[var(--dark-teal)]/80 flex-1 text-sm sm:text-base group-hover:text-[var(--dark-teal)] transition-colors duration-300">
                           {currentContent.portfolio[item.category].description}
                         </p>
                       </div>
