@@ -117,7 +117,18 @@ function App() {
   const currentContent = content[language];
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/966594392374', '_blank');
+    console.log('handleWhatsApp called');
+    const url = 'https://wa.me/966594392374';
+    console.log('WhatsApp URL:', url);
+    
+    // Track conversion
+    if (typeof window.gtag_report_conversion === 'function') {
+      console.log('Calling gtag_report_conversion');
+      window.gtag_report_conversion(url);
+    } else {
+      console.log('gtag_report_conversion not available, opening directly');
+      window.open(url, '_blank');
+    }
   };
   
   const handleWhatsAppWithMessage = (categoryKey) => {
@@ -126,12 +137,43 @@ function App() {
       ? `مرحبًا، مهتم بمنتج: ${productTitle}. أرسلوا لي التفاصيل والاسعار مشكورين.`
       : `Hello, I'm interested in: ${productTitle}. Please share details and pricing.`;
     const url = `https://wa.me/966594392374?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    
+    // Track conversion
+    if (typeof window.gtag_report_conversion === 'function') {
+      window.gtag_report_conversion(url);
+    } else {
+      window.open(url, '_blank');
+    }
   };
   
   const mapsUrl = 'https://maps.app.goo.gl/XwrVjqTz4ioVfn16A?g_st=aw';
   const handleOpenMaps = () => {
-    window.open(mapsUrl, '_blank');
+    // Track conversion
+    if (typeof window.gtag_report_conversion === 'function') {
+      window.gtag_report_conversion(mapsUrl);
+    } else {
+      window.open(mapsUrl, '_blank');
+    }
+  };
+
+  const handlePhoneCall = (phoneNumber) => {
+    const url = `tel:${phoneNumber}`;
+    // Track conversion
+    if (typeof window.gtag_report_conversion === 'function') {
+      window.gtag_report_conversion(url);
+    } else {
+      window.location.href = url;
+    }
+  };
+
+  const handleEmail = (email) => {
+    const url = `mailto:${email}`;
+    // Track conversion
+    if (typeof window.gtag_report_conversion === 'function') {
+      window.gtag_report_conversion(url);
+    } else {
+      window.location.href = url;
+    }
   };
   
   const phoneNumberE164 = '+966594392374';
@@ -262,16 +304,20 @@ function App() {
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
-      onClick={() =>
-        window.open(
-          `https://wa.me/966594392374?text=${encodeURIComponent(
-            language === 'ar' 
-              ? 'أريد الاستفادة من خصم 9.5% الآن بمناسبة اليوم الوطني'
-              : 'I want to claim the 9.5% discount for Saudi National Day'
-          )}`,
-          '_blank'
-        )
-      }
+      onClick={() => {
+        const url = `https://wa.me/966594392374?text=${encodeURIComponent(
+          language === 'ar' 
+            ? 'أريد الاستفادة من خصم 9.5% الآن بمناسبة اليوم الوطني'
+            : 'I want to claim the 9.5% discount for Saudi National Day'
+        )}`;
+        
+        // Track conversion
+        if (typeof window.gtag_report_conversion === 'function') {
+          window.gtag_report_conversion(url);
+        } else {
+          window.open(url, '_blank');
+        }
+      }}
       className="rounded-2xl cardboard-shadow bg-white/80 backdrop-blur p-6 sm:p-8 cursor-pointer hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group"
     >
       <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
@@ -303,14 +349,18 @@ function App() {
         <Button
           onClick={(e) => {
             e.stopPropagation(); // Prevent card click when button is clicked
-            window.open(
-              `https://wa.me/966594392374?text=${encodeURIComponent(
-                language === 'ar' 
-                  ? 'أريد الاستفادة من خصم 9.5% الآن بمناسبة اليوم الوطني'
-                  : 'I want to claim the 9.5% discount for Saudi National Day'
-              )}`,
-              '_blank'
-            );
+            const url = `https://wa.me/966594392374?text=${encodeURIComponent(
+              language === 'ar' 
+                ? 'أريد الاستفادة من خصم 9.5% الآن بمناسبة اليوم الوطني'
+                : 'I want to claim the 9.5% discount for Saudi National Day'
+            )}`;
+            
+            // Track conversion
+            if (typeof window.gtag_report_conversion === 'function') {
+              window.gtag_report_conversion(url);
+            } else {
+              window.open(url, '_blank');
+            }
           }}
           className="packaging-gradient text-white w-full sm:w-auto mt-3 sm:mt-0 px-6 py-3 text-sm sm:text-base font-semibold hover:shadow-lg transition-all duration-300 shrink-0"
         >
@@ -349,7 +399,20 @@ function App() {
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6, delay: index * 0.2 }}
                     viewport={{ once: true }}
-                    onClick={() => handleWhatsAppWithMessage(item.category)}
+                    onClick={() => {
+                      const productTitle = currentContent.portfolio[item.category]?.title || '';
+                      const message = language === 'ar'
+                        ? `مرحبًا، مهتم بمنتج: ${productTitle}. أرسلوا لي التفاصيل والاسعار مشكورين.`
+                        : `Hello, I'm interested in: ${productTitle}. Please share details and pricing.`;
+                      const url = `https://wa.me/966594392374?text=${encodeURIComponent(message)}`;
+                      
+                      // Track conversion
+                      if (typeof window.gtag_report_conversion === 'function') {
+                        window.gtag_report_conversion(url);
+                      } else {
+                        window.open(url, '_blank');
+                      }
+                    }}
                     className="portfolio-card rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group"
                   >
                     <div className="relative h-64">
@@ -369,7 +432,18 @@ function App() {
                         <Button
                           onClick={(e) => {
                             e.stopPropagation(); // Prevent card click when button is clicked
-                            handleWhatsAppWithMessage(item.category);
+                            const productTitle = currentContent.portfolio[item.category]?.title || '';
+                            const message = language === 'ar'
+                              ? `مرحبًا، مهتم بمنتج: ${productTitle}. أرسلوا لي التفاصيل والاسعار مشكورين.`
+                              : `Hello, I'm interested in: ${productTitle}. Please share details and pricing.`;
+                            const url = `https://wa.me/966594392374?text=${encodeURIComponent(message)}`;
+                            
+                            // Track conversion
+                            if (typeof window.gtag_report_conversion === 'function') {
+                              window.gtag_report_conversion(url);
+                            } else {
+                              window.open(url, '_blank');
+                            }
                           }}
                           className="packaging-gradient text-white px-3 py-2 text-sm font-semibold hover:shadow-md transition-all duration-300 shrink-0"
                         >
@@ -435,48 +509,46 @@ function App() {
               </h2>
               
               <div className="grid md:grid-cols-4 gap-6">
-                <a
-                  href={`tel:+966594392374`}
-                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
+                <button
+                  onClick={() => handlePhoneCall('+966594392374')}
+                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group cursor-pointer"
                   aria-label={language === 'ar' ? 'اتصل الآن' : 'Call now'}
                 >
                   <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
                     {currentContent.contact.phone}
                   </span>
                   <Phone className="h-6 w-6 text-[var(--primary-teal)]" />
-                </a>
-                <a
-                  href={`tel:+966548316100`}
-                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
+                </button>
+                <button
+                  onClick={() => handlePhoneCall('+966548316100')}
+                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group cursor-pointer"
                   aria-label={language === 'ar' ? 'اتصل الآن' : 'Call now'}
                 >
                   <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
                     {currentContent.contact.phone2}
                   </span>
                   <Phone className="h-6 w-6 text-[var(--primary-teal)]" />
-                </a>
-                <a
-                  href={`mailto:${currentContent.contact.email}`}
-                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
+                </button>
+                <button
+                  onClick={() => handleEmail(currentContent.contact.email)}
+                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group cursor-pointer"
                   aria-label={language === 'ar' ? 'إرسال بريد إلكتروني' : 'Send email'}
                 >
                   <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
                     {currentContent.contact.email}
                   </span>
                   <Mail className="h-6 w-6 text-[var(--primary-teal)]" />
-                </a>
-                <a
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group"
+                </button>
+                <button
+                  onClick={handleOpenMaps}
+                  className="flex items-center justify-center space-x-4 rtl:space-x-reverse group cursor-pointer"
                   aria-label={language === 'ar' ? 'افتح العنوان على خرائط قوقل' : 'Open address in Google Maps'}
                 >
                   <span className="text-lg text-[var(--dark-teal)] group-hover:underline">
                     {currentContent.contact.address}
                   </span>
                   <MapPin className="h-6 w-6 text-[var(--primary-teal)]" />
-                </a>
+                </button>
               </div>
               <div className="mt-8 flex justify-center">
                 <Button 
