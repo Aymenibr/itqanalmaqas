@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { MessageCircle, Package, Truck, Coffee, ShoppingBag, Globe, Phone, Mail, MapPin, Box, Leaf, Gem } from 'lucide-react';
+import { MessageCircle, Package, Truck, Coffee, ShoppingBag, Globe, Phone, Mail, MapPin, Box, Leaf, Gem, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
@@ -23,6 +23,7 @@ function App() {
         home: "Home",
         portfolio: "Portfolio", 
         about: "About",
+        reviews: "Reviews",
         contact: "Contact"
       },
       hero: {
@@ -44,6 +45,12 @@ function App() {
       about: {
         title: "About ITQANALMAQAS",
         description: "We are a leading packaging company dedicated to providing innovative and sustainable packaging solutions. Our expertise ensures your products are protected with an eco-friendly approach."
+      },
+      rating: {
+        title: "Rate Us on Google Maps",
+        description: "Share your experience with ITQANALMAQAS to help more businesses discover us.",
+        cta: "Leave a Google Review",
+        note: "Opens the Google Maps review form."
       },
       contact: {
         title: "Get In Touch",
@@ -71,6 +78,7 @@ function App() {
         home: "الرئيسية",
         portfolio: "أعمالنا",
         about: "من نحن", 
+        reviews: "التقييمات",
         contact: "اتصل بنا"
       },
       hero: {
@@ -92,6 +100,12 @@ function App() {
       about: {
         title: "عن إتقان المقاس",
         description: "إحنا شركة سعودية متخصصة في تصنيع وتوريد الكراتين بالجملة.\nنخدم مختلف القطاعات: مطاعم، متاجر إلكترونية، شركات شحن، محلات تجزئة وغيرهم.\nنقدر نسوي لك تصميم خاص حسب طلبك.\nملتزمين بالجودة والسرعة في التسليم.\nهدفنا نكون شريكك في التغليف ونخلي منتجاتك تبرز وتوصل بأمان."
+      },
+      rating: {
+        title: "قيّمنا على خرائط جوجل",
+        description: "شارك تجربتك مع إتقان المقاس لتساعد المزيد من العملاء على التعرف علينا.",
+        cta: "كتابة تقييم في جوجل",
+        note: "سيتم فتح نموذج المراجعة في تطبيق خرائط جوجل."
       },
       contact: {
         title: "تواصل معنا",
@@ -147,12 +161,22 @@ function App() {
   };
   
   const mapsUrl = 'https://maps.app.goo.gl/XwrVjqTz4ioVfn16A?g_st=aw';
+  const reviewUrl = 'https://search.google.com/local/writereview?placeid=ChIJQbWffeb_Lj4R78Z_IrevPeg';
   const handleOpenMaps = () => {
     // Track conversion
     if (typeof window.gtag_report_conversion === 'function') {
       window.gtag_report_conversion(mapsUrl);
     } else {
       window.open(mapsUrl, '_blank');
+    }
+  };
+
+  const handleOpenReview = () => {
+    // Track conversion
+    if (typeof window.gtag_report_conversion === 'function') {
+      window.gtag_report_conversion(reviewUrl);
+    } else {
+      window.open(reviewUrl, '_blank');
     }
   };
 
@@ -459,6 +483,60 @@ function App() {
                 );
               })}
             </div>
+          </div>
+        </section>
+
+        <section id="reviews" className="py-20 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-y border-[var(--primary-teal)]/15">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ y: 40, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-10"
+            >
+              <h2 className="text-4xl lg:text-5xl font-bold text-gradient mb-4">
+                {currentContent.rating.title}
+              </h2>
+              <p className="text-lg sm:text-xl text-[var(--dark-teal)]/80 max-w-2xl mx-auto">
+                {currentContent.rating.description}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7 }}
+              viewport={{ once: true }}
+              className="rounded-3xl cardboard-shadow bg-white/90 backdrop-blur p-6 sm:p-8 flex flex-col gap-6 items-center text-center"
+            >
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 rtl:flex-row-reverse text-center">
+                <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-[var(--primary-teal)] text-white flex items-center justify-center shrink-0">
+                  <Star className="h-7 w-7 sm:h-8 sm:w-8" />
+                </div>
+                <div className="space-y-1 text-[var(--dark-teal)]">
+                  <h3 className="text-2xl sm:text-3xl font-semibold">
+                    {language === 'ar' ? 'رأيك يصنع فرقاً' : 'Your review makes a difference'}
+                  </h3>
+                  <p className="text-[var(--dark-teal)]/75 text-base sm:text-lg">
+                    {language === 'ar' 
+                      ? 'شارك تقييمك ليساعدنا على الاستمرار بجودة أعلى.' 
+                      : 'Share your review to help us keep delivering quality.'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 rtl:flex-row-reverse justify-center w-full sm:w-auto">
+                <Button
+                  onClick={handleOpenReview}
+                  className="packaging-gradient text-white w-full sm:w-auto px-6 py-3 text-base font-semibold hover:shadow-lg transition-all duration-300"
+                  aria-label={language === 'ar' ? 'تقييمنا على خرائط جوجل' : 'Rate us on Google Maps'}
+                >
+                  <Star className="h-4 w-4 sm:me-2" />
+                  <span>{currentContent.rating.cta}</span>
+                </Button>
+              </div>
+            </motion.div>
           </div>
         </section>
 
